@@ -1,0 +1,32 @@
+<h2>Videoconferência</h2>
+
+<!-- Botão para criar a sessão -->
+<button (click)="createSession()" *ngIf="!videostarted">Criar Sessão</button>
+
+<div *ngIf="token">
+  <!-- Link para a URL remota -->
+  <p>
+    <a [href]="urlRemota" target="_blank">{{ urlRemota }}</a>
+  </p>
+
+  <!-- Botão para encerrar a videoconferência -->
+  <button (click)="endVideoConference()">Encerrar Videoconferência</button>
+
+  <!-- Contêiner para vídeos -->
+  <div id="frames">
+    <div>
+      <h2>Participante Local</h2>
+      <!-- Contêiner de vídeo local -->
+      <div id="video-container-local" class="video-frame">
+        <p>Aguardando vídeo local...</p>
+      </div>
+    </div>
+    <div>
+      <h2>Participante Remoto</h2>
+      <!-- Contêiner de vídeo remoto -->
+      <div id="video-container-remote" class="video-frame">
+        <p>Aguardando vídeo remoto...</p>
+      </div>
+    </div>
+  </div>
+</div>
