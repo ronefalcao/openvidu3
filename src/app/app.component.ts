@@ -47,6 +47,7 @@ export class AppComponent implements OnDestroy {
   room = signal<Room | undefined>(undefined);
   localTrack = signal<LocalVideoTrack | undefined>(undefined);
   remoteTracksMap = signal<Map<string, TrackInfo>>(new Map());
+  isRecording: boolean = false; // Estado de gravação
 
   constructor(private httpClient: HttpClient) {
     this.configureUrls();
@@ -142,6 +143,39 @@ export class AppComponent implements OnDestroy {
     this.room.set(undefined);
     this.localTrack.set(undefined);
     this.remoteTracksMap.set(new Map());
+  }
+
+  async startRecording() {
+    try {
+      // Chame a API do servidor para iniciar a gravação
+      await this.startRecordingServer(); // Implemente este método para interagir com o servidor
+      this.isRecording = true;
+      console.log('Recording started successfully.');
+    } catch (error) {
+      console.error('Error starting recording:', error);
+    }
+  }
+
+  private async startRecordingServer() {
+    try {
+      const roomName = this.roomForm.value.roomName!;
+      const response = await lastValueFrom(
+        this.httpClient.post(
+          APPLICATION_SERVER_URL + 'start-recording', // Endpoint para iniciar a gravação
+          { room: roomName }, // Parâmetros esperados pelo servidor
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      );
+
+      console.log('Server recording started:', response);
+    } catch (error) {
+      console.error('Error starting server recording:', error);
+      throw error;
+    }
   }
 
   @HostListener('window:beforeunload')

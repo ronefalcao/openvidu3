@@ -1,6 +1,8 @@
-<div [id]="'camera-' + participantIdentity()" class="video-container">
-    <div class="participant-data">
-        <p>{{ participantIdentity() + (local() ? " (You)" : "") }}</p>
-    </div>
-    <video #videoElement [id]="track().sid"></video>
+<div [id]="'camera-' + participantIdentity" class="video-container">
+  <div class="participant-data">
+    <p>{{ participantIdentity + (local ? " (You)" : "") }}</p>
+    <!-- Tempo de gravação -->
+    <p *ngIf="isRecording" class="recording-time">{{ recordingTime }}</p>
+  </div>
+  <video #videoElement [id]="track.sid" autoplay muted></video>
 </div>
